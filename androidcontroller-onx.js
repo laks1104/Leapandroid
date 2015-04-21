@@ -36,7 +36,7 @@ function checkIfPhoneShouldBeSilent() {
   //device.notifications.createNotification('Asking if I should be silent...').show();
 
   device.ajax({
-    url: 'http://androidcontroller.herokuapp.com/shouldibesilent',
+    url: 'http://leapmoand.herokuapp.com/shouldibesilent',
     type: 'POST',
     dataType: 'json',
     data: '{"call":"incoming"}',
@@ -49,14 +49,14 @@ function checkIfPhoneShouldBeSilent() {
     //device.notifications.createNotification('It said ' + JSONResponse.callSound).show();
 
     if (JSONResponse.callSound === false) {
-      device.notifications.createNotification('Busy request sent, sending a text').show();
+      device.notifications.createNotification('SILENCED!').show();
       device.audio.ringerVolume = 0;
 
       if (!textMessageRequested) {
         textMessageRequested = true;
         device.messaging.sendSms({
           to: currentPhoneNumber,
-          body: 'Sorry! In the middle of a technological breakthrough. I\'ll call you back!'
+          body: 'Sorry! Busy at the moment. I\'ll call you back!'
         },
         function (err) {
           console.log(err || 'sms was sent successfully');
@@ -77,7 +77,7 @@ function returnToPhoneDefaults() {
   textMessageRequested = false;
 
   device.ajax({
-    url: 'http://yourappurlhere.com/call',
+    url: 'http://leapmoand.herokuapp.com/call',
     type: 'POST',
     dataType: 'json',
     data: '{"action":"reset"}',
